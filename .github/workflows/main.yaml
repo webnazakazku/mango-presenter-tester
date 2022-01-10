@@ -2,13 +2,13 @@ name: QA
 
 on:
   pull_request:
-    branches:
-      - master
-
+    paths-ignore:
+      - ".docs/**"
   push:
     branches:
-      - master
-      - v*
+      - "*"
+  schedule:
+    - cron: "0 8 * * 1" # At 08:00 on Monday
 
 jobs:
   tests:
