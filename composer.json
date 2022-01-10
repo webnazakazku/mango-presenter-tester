@@ -4,16 +4,17 @@
 	"require": {
 		"php": ">=7.1",
 		"nette/application": "~3.0",
-		"nette/security": "~3.0",
 		"nette/forms": "~3.0",
+		"nette/security": "~3.0",
 		"nette/tester": "~2.0"
 	},
 	"require-dev": {
-		"nextras/secured-links": "@dev",
+		"latte/latte": "^2.4",
 		"mangoweb/tester-infrastructure": "@dev",
-		"phpstan/phpstan": "^1.0",
 		"mangoweb/tester-http-mocks": "@dev",
-		"latte/latte": "^2.4"
+		"nette/bootstrap": "~3.0.0",
+		"nextras/secured-links": "@dev",
+		"phpstan/phpstan": "^1.0"
 	},
 	"autoload": {
 		"classmap": [
