@@ -1,6 +1,16 @@
 {
 	"name": "mangoweb/presenter-tester",
 	"license": "MIT",
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/webnazakazku/mango-tester-infrastructure"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/webnazakazku/mango-tester-http-mocks"
+		}
+	],
 	"require": {
 		"php": ">=7.1",
 		"nette/application": "~3.0",
