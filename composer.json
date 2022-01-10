@@ -11,7 +11,7 @@
 	"require-dev": {
 		"nextras/secured-links": "@dev",
 		"mangoweb/tester-infrastructure": "@dev",
-		"phpstan/phpstan": "^0.12",
+		"phpstan/phpstan": "^1.0",
 		"mangoweb/tester-http-mocks": "@dev",
 		"latte/latte": "^2.4"
 	},
