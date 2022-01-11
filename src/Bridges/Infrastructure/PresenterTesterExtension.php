@@ -1,10 +1,7 @@
 <?php declare(strict_types = 1);
 
-namespace Mangoweb\Tester\PresenterTester\Bridges\Infrastructure;
+namespace Webnazakazku\MangoTester\PresenterTester\Bridges\Infrastructure;
 
-use Mangoweb\Tester\Infrastructure\MangoTesterExtension;
-use Mangoweb\Tester\PresenterTester\IPresenterTesterListener;
-use Mangoweb\Tester\PresenterTester\PresenterTester;
 use Nette\Application\Application;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\IRouter;
@@ -14,6 +11,9 @@ use Nette\DI\Definitions\Statement;
 use Nette\Http\IRequest;
 use Nette\Http\Session;
 use Nette\Security\User;
+use Webnazakazku\MangoTester\Infrastructure\MangoTesterExtension;
+use Webnazakazku\MangoTester\PresenterTester\IPresenterTesterListener;
+use Webnazakazku\MangoTester\PresenterTester\PresenterTester;
 
 class PresenterTesterExtension extends CompilerExtension
 {
@@ -65,7 +65,7 @@ class PresenterTesterExtension extends CompilerExtension
 	private function requireService(string $class): void
 	{
 		$builder = $this->getContainerBuilder();
-		$name = preg_replace('#\W+#', '_', $class);
+		$name = (string) preg_replace('#\W+#', '_', $class);
 		$builder->addDefinition($this->prefix($name))
 			->setClass($class)
 			->addTag(MangoTesterExtension::TAG_REQUIRE);

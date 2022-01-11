@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Mangoweb\Tester\PresenterTester;
+namespace Webnazakazku\MangoTester\PresenterTester;
 
 use Nette\Forms\Controls\CsrfProtection;
 use Nette\Http\Session;
@@ -55,7 +55,7 @@ class TestPresenterRequest
 
 	public function __construct(string $presenterName, Session $session)
 	{
-		if ($session instanceof \Mangoweb\Tester\HttpMocks\Session) {
+		if ($session instanceof \Webnazakazku\MangoTester\HttpMocks\Session) {
 			$session->setFakeId('mango.id');
 		}
 		$session->getSection(CsrfProtection::class)->token = 'mango.token';

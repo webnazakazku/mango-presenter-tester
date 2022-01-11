@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace MangowebTests\Tester\PresenterTester;
+namespace Tests\Tester\PresenterTester;
 
-use Mangoweb\Tester\Infrastructure\TestCase;
-use Mangoweb\Tester\PresenterTester\PresenterTester;
 use Tester\Assert;
 use Tester\AssertException;
+use Webnazakazku\MangoTester\Infrastructure\TestCase;
+use Webnazakazku\MangoTester\PresenterTester\PresenterTester;
 
 $factory = require __DIR__ . '/../bootstrap.php';
 

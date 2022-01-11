@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Mangoweb\Tester\PresenterTester;
+namespace Webnazakazku\MangoTester\PresenterTester;
 
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenter;
@@ -174,7 +174,7 @@ class PresenterTester
 		$appRequest = $this->createApplicationRequest($request);
 		$refUrl = new UrlScript($this->baseUrl, '/');
 
-		$url = new UrlScript($this->router->constructUrl($appRequest->toArray(), $refUrl), '/');
+		$url = new UrlScript((string) $this->router->constructUrl($appRequest->toArray(), $refUrl), '/');
 
 		\Closure::bind(function () use ($request, $url) {
 			/** @var Request $this */

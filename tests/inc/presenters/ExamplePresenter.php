@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace MangowebTests\Tester\PresenterTester\Presenters;
+namespace Tests\Tester\PresenterTester\Presenters;
 
 use Nette\Application\Responses\TextResponse;
 use Nette\Application\UI\Presenter;

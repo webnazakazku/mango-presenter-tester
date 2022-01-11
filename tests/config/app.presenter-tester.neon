@@ -1,9 +1,9 @@
 services:
-	testerListener: MangowebTests\Tester\PresenterTester\TestPresenterTesterListener()
-	presenterTester: Mangoweb\Tester\PresenterTester\PresenterTester(baseUrl: http://localhost, listeners: [
-		@MangowebTests\Tester\PresenterTester\TestPresenterTesterListener
+	testerListener: Tests\Tester\PresenterTester\TestPresenterTesterListener()
+	presenterTester: Webnazakazku\MangoTester\PresenterTester\PresenterTester(baseUrl: http://localhost, listeners: [
+		@Tests\Tester\PresenterTester\TestPresenterTesterListener
 	])
 	router: Nette\Application\Routers\SimpleRouter
 application:
 	mapping:
-		*: MangowebTests\Tester\PresenterTester\Presenters\*\*Presenter
+		*: Tests\Tester\PresenterTester\Presenters\*\*Presenter

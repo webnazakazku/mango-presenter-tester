@@ -1,10 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace Mangoweb\Tester\PresenterTester\Bridges\Infrastructure;
+namespace Webnazakazku\MangoTester\PresenterTester\Bridges\Infrastructure;
 
-use Mangoweb\Tester\Infrastructure\ITestCaseListener;
-use Mangoweb\Tester\Infrastructure\TestCase;
-use Mangoweb\Tester\PresenterTester\PresenterTester;
+use Webnazakazku\MangoTester\Infrastructure\ITestCaseListener;
+use Webnazakazku\MangoTester\Infrastructure\TestCase;
+use Webnazakazku\MangoTester\PresenterTester\PresenterTester;
 use Tester\Assert;
 
 

@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$configurator = new \Mangoweb\Tester\Infrastructure\InfrastructureConfigurator(__DIR__ . '/temp');
+$configurator = new \Webnazakazku\MangoTester\Infrastructure\InfrastructureConfigurator(__DIR__ . '/temp');
 $configurator->addConfig(__DIR__ . '/config/infrastructure.neon');
 $configurator->setupTester();
 $configurator->addParameters(['configDir' => __DIR__ . '/config']);

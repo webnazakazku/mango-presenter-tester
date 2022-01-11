@@ -1,6 +1,6 @@
 Mango Presenter Tester
 ======
-[![Build Status](https://travis-ci.org/mangoweb-backend/presenter-tester.svg?branch=master)](https://travis-ci.org/mangoweb-backend/presenter-tester)
+[![Build Status](https://github.com/webnazakazku/mango-presenter-tester/actions/workflows/main.yaml/badge.svg)](https://github.com/webnazakazku/mango-presenter-tester/actions/workflows/main.yaml)
 
 Testing tool for Nette presenter with easy to use API.
 
@@ -10,7 +10,7 @@ Installation
 The recommended way to install is via Composer:
 
 ```
-composer require mangoweb/presenter-tester
+composer require webnazakazku/nango-presenter-tester
 ```
 
 It requires PHP version 7.1.
@@ -22,14 +22,14 @@ If you are using power of Nette DI Container in your tests, you can use Presente
 
 ```neon
 services:
-	- Mangoweb\Tester\PresenterTester\PresenterTester(baseUrl: "http://my-app.dev")
+	- Webnazakazku\MangoTester\PresenterTester\PresenterTester(baseUrl: "http://my-app.dev")
 ```
 
 You can also specify list of [listeners](#listeners):
 
 ```neon
 services:
-	- Mangoweb\Tester\PresenterTester\PresenterTester(
+	- Webnazakazku\MangoTester\PresenterTester(
 		baseUrl: "http://my-app.dev"
 		listeners: [
 			MyListener()
@@ -37,11 +37,11 @@ services:
 	)
 ```
 
-Other way is to use Presenter Tester together with [mangoweb/tester-infrastructure](https://github.com/mangoweb-backend/tester-infrastructure). In that case you have to register DI extension in infrastructure `.neon` file:
+Other way is to use Presenter Tester together with [webnazakazku/mango-tester-infrastructure](https://github.com/webnazakazku/mango-tester-infrastructure). In that case you have to register DI extension in infrastructure `.neon` file:
 
 ```
 extensions:
-	mango.presenterTester: Mangoweb\Tester\PresenterTester\Bridges\Infrastructure\PresenterTesterExtension
+	mango.presenterTester: Webnazakazku\MangoTester\PresenterTester\Bridges\Infrastructure\PresenterTesterExtension
 ```
 
 In configuration of the extension you can set a base url and custom [identity factory](#identity-factory).
@@ -84,10 +84,10 @@ Set application request parameters.
 ### `withForm(string $formName, array $post, array $files)`
 Add form submission data to request. You have to specify full component tree path to in `$formName`. 
 
-Presenter Tester supports forms with CSRF protection, but since it uses session, it is recommended to install [mangoweb/tester-http-mocks](https://github.com/mangoweb-backend/tester-http-mocks) package.
+Presenter Tester supports forms with CSRF protection, but since it uses session, it is recommended to install [webnazakazku/mango-tester-http-mocks](https://github.com/webnazakazku/mango-tester-http-mocks) package.
 
 ### `withSignal(string $signal, array $componentParameters = [], string $componentClass = null)`
-With Presenter Tester, you can also easily test signal method. The componentClass is only required in the case you are using `nextras/secured-links` (which you should). It is also recommended to install [mangoweb/tester-http-mocks](https://github.com/mangoweb-backend/tester-http-mocks) package.
+With Presenter Tester, you can also easily test signal method. The componentClass is only required in the case you are using `nextras/secured-links` (which you should). It is also recommended to install [webnazakazku/mango-tester-http-mocks](https://github.com/webnazakazku/mango-tester-http-mocks) package.
 
 ### `withAjax`
 (Not only) signals often uses AJAX, which you can enable using this method.
@@ -136,7 +136,7 @@ Also, there are methods like `getResponse` or `getPresenter` to access original 
 Listeners
 ----
 
-You can hook to some events by implementing `Mangoweb\Tester\PresenterTester\IPresenterTesterListener` interface. Then you can e.g. modify test request or execute some implicit result checks.
+You can hook to some events by implementing `Webnazakazku\MangoTester\PresenterTester\IPresenterTesterListener` interface. Then you can e.g. modify test request or execute some implicit result checks.
 
 To register a listener, simply register it as a service in DI container (infrastructure container if you are using Mango Tester Infrastructure).
 

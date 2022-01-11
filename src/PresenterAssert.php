@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Mangoweb\Tester\PresenterTester;
+namespace Webnazakazku\MangoTester\PresenterTester;
 
 use Nette\Application\Request;
 use Nette\Application\UI;

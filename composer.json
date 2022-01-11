@@ -1,5 +1,5 @@
 {
-	"name": "mangoweb/presenter-tester",
+	"name": "webnazakazku/mango-presenter-tester",
 	"license": "MIT",
 	"repositories": [
 		{
@@ -20,11 +20,11 @@
 	},
 	"require-dev": {
 		"latte/latte": "^2.4",
-		"mangoweb/tester-infrastructure": "@dev",
-		"mangoweb/tester-http-mocks": "@dev",
 		"nette/bootstrap": "~3.0.0",
 		"nextras/secured-links": "@dev",
-		"phpstan/phpstan": "^1.0"
+		"phpstan/phpstan": "^1.0",
+		"webnazakazku/mango-tester-infrastructure": "dev-master",
+		"webnazakazku/mango-tester-http-mocks": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

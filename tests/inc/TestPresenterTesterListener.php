@@ -1,10 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace MangowebTests\Tester\PresenterTester;
+namespace Tests\Tester\PresenterTester;
 
-use Mangoweb\Tester\PresenterTester\IPresenterTesterListener;
-use Mangoweb\Tester\PresenterTester\TestPresenterRequest;
-use Mangoweb\Tester\PresenterTester\TestPresenterResult;
+use Webnazakazku\MangoTester\PresenterTester\IPresenterTesterListener;
+use Webnazakazku\MangoTester\PresenterTester\TestPresenterRequest;
+use Webnazakazku\MangoTester\PresenterTester\TestPresenterResult;
 
 class TestPresenterTesterListener implements IPresenterTesterListener
 {
