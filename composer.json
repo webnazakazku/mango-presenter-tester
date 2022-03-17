@@ -13,7 +13,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1",
+		"php": ">=7.2",
 		"nette/application": "~3.0",
 		"nette/forms": "~3.0",
 		"nette/security": "~3.0",
@@ -23,7 +23,10 @@
 		"latte/latte": "^2.4",
 		"nette/bootstrap": "~3.0.0",
 		"nextras/secured-links": "@dev",
+		"ninjify/qa": "^0.13",
 		"phpstan/phpstan": "^1.0",
+		"phpstan/phpstan-deprecation-rules": "^1.0",
+		"phpstan/phpstan-nette": "^1.0",
 		"webnazakazku/mango-tester-infrastructure": "dev-master",
 		"webnazakazku/mango-tester-http-mocks": "dev-master"
 	},

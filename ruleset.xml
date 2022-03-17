@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset>
+    <!-- Contributte Coding Standard -->
+    <rule ref="./vendor/ninjify/coding-standard/contributte.xml"/>
+
+    <!-- Specific rules -->
+    <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+        <properties>
+            <property name="rootNamespaces" type="array" value="
+                src=>Webnazakazku\MangoTester\PresenterTester,
+				tests/cases=>AppTests\Tester\PresenterTester,
+				tests/inc=>Tests\Tester\PresenterTester,
+			"/>
+            <property name="extensions" type="array" value="php,phpt"/>
+        </properties>
+        <exclude name="Generic.NamingConventions.CamelCapsFunctionName.ScopeNotCamelCaps" />
+    </rule>
+
+    <!-- Exclude folders -->
+    <exclude-pattern>/tests/tmp</exclude-pattern>
+</ruleset>

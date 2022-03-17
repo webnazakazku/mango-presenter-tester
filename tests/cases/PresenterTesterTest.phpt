@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Tests\Tester\PresenterTester;
+namespace AppTests\Tester\PresenterTester;
 
 use Tester\Assert;
 use Tester\AssertException;
@@ -15,6 +15,7 @@ $factory = require __DIR__ . '/../bootstrap.php';
  */
 class PresenterTesterTest extends TestCase
 {
+
 	public function testRender(PresenterTester $presenterTester)
 	{
 		$request = $presenterTester->createRequest('Example')
@@ -29,7 +30,6 @@ class PresenterTesterTest extends TestCase
 			$response->assertRenders(['Lorem ipsum']);
 		}, AssertException::class);
 	}
-
 
 	public function testError(PresenterTester $presenterTester)
 	{
@@ -46,7 +46,6 @@ class PresenterTesterTest extends TestCase
 		}, AssertException::class);
 	}
 
-
 	public function testSignal(PresenterTester $presenterTester)
 	{
 		$request = $presenterTester->createRequest('Example')
@@ -57,6 +56,7 @@ class PresenterTesterTest extends TestCase
 			$response->assertRenders('signal processed with abc');
 		});
 	}
+
 }
 
 

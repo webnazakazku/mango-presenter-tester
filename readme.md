@@ -13,7 +13,7 @@ The recommended way to install is via Composer:
 composer require webnazakazku/nango-presenter-tester
 ```
 
-It requires PHP version 7.1.
+It requires PHP version 7.2.
 
 Integration & configuration
 -----

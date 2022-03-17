@@ -17,28 +17,30 @@ use Webnazakazku\MangoTester\PresenterTester\PresenterTester;
 
 class PresenterTesterExtension extends CompilerExtension
 {
+
 	/** @var array */
 	public $defaults = [
 		'baseUrl' => 'https://test.dev',
 		'identityFactory' => null,
 	];
 
-
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('presenterTester'))
-			->setClass(PresenterTester::class)
-			->addSetup(new Statement('?->? = ?',
+			->setType(PresenterTester::class)
+			->addSetup(new Statement(
+				'?->? = ?',
 				[
 					$this->prefix('@presenterTesterTearDown'),
 					'presenterTester',
 					'@self',
-				]));
+				]
+			));
 
 		$builder->addDefinition($this->prefix('presenterTesterTearDown'))
-			->setClass(PresenterTesterTestCaseListener::class);
+			->setType(PresenterTesterTestCaseListener::class);
 		$this->requireService(IPresenterFactory::class);
 		$this->requireService(User::class);
 		$this->requireService(IRouter::class);
@@ -47,11 +49,10 @@ class PresenterTesterExtension extends CompilerExtension
 		$this->requireService(Application::class);
 	}
 
-
 	public function beforeCompile(): void
 	{
 		$config = $this->validateConfig($this->defaults);
-		$builder = $this->getContainerBuilder();;
+		$builder = $this->getContainerBuilder();
 		$definition = $builder->getDefinition($this->prefix('presenterTester'));
 		assert($definition instanceof ServiceDefinition);
 		$definition->setArguments([
@@ -61,13 +62,13 @@ class PresenterTesterExtension extends CompilerExtension
 		]);
 	}
 
-
 	private function requireService(string $class): void
 	{
 		$builder = $this->getContainerBuilder();
 		$name = (string) preg_replace('#\W+#', '_', $class);
 		$builder->addDefinition($this->prefix($name))
-			->setClass($class)
+			->setType($class)
 			->addTag(MangoTesterExtension::TAG_REQUIRE);
 	}
+
 }

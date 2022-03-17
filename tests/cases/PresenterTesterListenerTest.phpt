@@ -1,8 +1,9 @@
 <?php declare(strict_types = 1);
 
-namespace Tests\Tester\PresenterTester;
+namespace AppTests\Tester\PresenterTester;
 
 use Tester\Assert;
+use Tests\Tester\PresenterTester\TestPresenterTesterListener;
 use Webnazakazku\MangoTester\Infrastructure\TestCase;
 use Webnazakazku\MangoTester\PresenterTester\PresenterTester;
 
@@ -14,6 +15,7 @@ $factory = require __DIR__ . '/../bootstrap.php';
  */
 class PresenterTesterListenerTest extends TestCase
 {
+
 	public function testRender(PresenterTester $presenterTester, TestPresenterTesterListener $listener)
 	{
 		$listener->enabled = true;
@@ -26,7 +28,7 @@ class PresenterTesterListenerTest extends TestCase
 		});
 		Assert::same($response, $listener->passedResult);
 	}
-}
 
+}
 
 PresenterTesterListenerTest::run($factory);

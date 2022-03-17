@@ -10,4 +10,5 @@ $configurator->addConfig([
 		],
 	],
 ]);
+
 return $configurator->getContainerFactory();

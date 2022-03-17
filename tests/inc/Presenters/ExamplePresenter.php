@@ -7,22 +7,22 @@ use Nette\Application\UI\Presenter;
 
 class ExamplePresenter extends Presenter
 {
-	public function actionRender()
+
+	public function actionRender(): void
 	{
 	}
 
-
-	public function actionError()
+	public function actionError(): void
 	{
 		$this->error();
 	}
 
-
 	/**
 	 * @crossOrigin
 	 */
-	public function handleSignal(string $value)
+	public function handleSignal(string $value): void
 	{
 		$this->sendResponse(new TextResponse('signal processed with ' . $value));
 	}
+
 }

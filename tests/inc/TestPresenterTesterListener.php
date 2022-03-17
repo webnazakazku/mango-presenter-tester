@@ -8,24 +8,25 @@ use Webnazakazku\MangoTester\PresenterTester\TestPresenterResult;
 
 class TestPresenterTesterListener implements IPresenterTesterListener
 {
+
 	/** @var bool */
 	public $enabled = false;
 
 	/** @var TestPresenterResult|null */
 	public $passedResult;
 
-
 	public function onRequest(TestPresenterRequest $request): TestPresenterRequest
 	{
 		if (!$this->enabled) {
 			return $request;
 		}
+
 		return $request->withParameters(['action' => 'render']);
 	}
-
 
 	public function onResult(TestPresenterResult $result): void
 	{
 		$this->passedResult = $result;
 	}
+
 }

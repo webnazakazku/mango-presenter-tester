@@ -2,6 +2,8 @@
 
 namespace Webnazakazku\MangoTester\PresenterTester;
 
+use Closure;
+use LogicException;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
@@ -15,9 +17,9 @@ use Nette\Http\UrlScript;
 use Nette\Security\User;
 use Tester\Assert;
 
-
 class PresenterTester
 {
+
 	/** @var Session */
 	private $session;
 
@@ -45,7 +47,6 @@ class PresenterTester
 	/** @var TestPresenterResult[] */
 	private $results = [];
 
-
 	/**
 	 * @param IPresenterTesterListener[] $listeners
 	 */
@@ -57,7 +58,7 @@ class PresenterTester
 		IRequest $httpRequest,
 		User $user,
 		array $listeners = [],
-		callable $identityFactory = null
+		?callable $identityFactory = null
 	)
 	{
 		$this->session = $session;
@@ -72,12 +73,12 @@ class PresenterTester
 		$this->identityFactory = $identityFactory;
 	}
 
-
 	public function execute(TestPresenterRequest $testRequest): TestPresenterResult
 	{
 		foreach ($this->listeners as $listener) {
 			$testRequest = $listener->onRequest($testRequest);
 		}
+
 		$applicationRequest = $this->createApplicationRequest($testRequest);
 		$presenter = $this->createPresenter($testRequest);
 		if ($applicationRequest->getMethod() === 'GET') {
@@ -91,6 +92,7 @@ class PresenterTester
 		} catch (BadRequestException $badRequestException) {
 			$response = null;
 		}
+
 		if ($applicationRequest->getParameter(Presenter::SIGNAL_KEY) && method_exists($presenter, 'isSignalProcessed')) {
 			if (!$presenter->isSignalProcessed()) {
 				if ($badRequestException) {
@@ -99,6 +101,7 @@ class PresenterTester
 					assert($response !== null);
 					$cause = get_class($response);
 				}
+
 				Assert::fail('Signal has not been processed at all, received ' . $cause);
 			}
 		}
@@ -107,17 +110,16 @@ class PresenterTester
 		foreach ($this->listeners as $listener) {
 			$listener->onResult($result);
 		}
+
 		$this->results[] = $result;
 
 		return $result;
 	}
 
-
 	public function createRequest(string $presenterName): TestPresenterRequest
 	{
 		return new TestPresenterRequest($presenterName, $this->session);
 	}
-
 
 	/**
 	 * @return TestPresenterResult[]
@@ -126,7 +128,6 @@ class PresenterTester
 	{
 		return $this->results;
 	}
-
 
 	protected function createPresenter(TestPresenterRequest $request): IPresenter
 	{
@@ -140,7 +141,6 @@ class PresenterTester
 		return $presenter;
 	}
 
-
 	protected function createApplicationRequest(TestPresenterRequest $testRequest): AppRequest
 	{
 		return new AppRequest(
@@ -152,22 +152,22 @@ class PresenterTester
 		);
 	}
 
-
 	protected function loginUser(TestPresenterRequest $request): void
 	{
 		$this->user->logout(true);
 		$identity = $request->getIdentity();
 		if (!$identity && $request->shouldHaveIdentity()) {
 			if (!$this->identityFactory) {
-				throw new \LogicException('identityFactory is not set');
+				throw new LogicException('identityFactory is not set');
 			}
+
 			$identity = ($this->identityFactory)($request);
 		}
+
 		if ($identity) {
 			$this->user->login($identity);
 		}
 	}
-
 
 	protected function setupHttpRequest(TestPresenterRequest $request): void
 	{
@@ -176,7 +176,7 @@ class PresenterTester
 
 		$url = new UrlScript((string) $this->router->constructUrl($appRequest->toArray(), $refUrl), '/');
 
-		\Closure::bind(function () use ($request, $url) {
+		Closure::bind(function () use ($request, $url) {
 			/** @var Request $this */
 			$this->headers = $request->getHeaders() + $this->headers;
 			if ($request->isAjax()) {
@@ -184,6 +184,7 @@ class PresenterTester
 			} else {
 				unset($this->headers['x-requested-with']);
 			}
+
 			$this->post = $request->getPost();
 			$this->url = $url;
 			$this->method = ($request->getPost() || $request->getRawBody()) ? 'POST' : 'GET';
@@ -191,10 +192,10 @@ class PresenterTester
 		}, $this->httpRequest, Request::class)->__invoke();
 	}
 
-
 	protected function setupUIPresenter(Presenter $presenter): void
 	{
 		$presenter->autoCanonicalize = false;
 		$presenter->invalidLinkMode = Presenter::INVALID_LINK_EXCEPTION;
 	}
+
 }

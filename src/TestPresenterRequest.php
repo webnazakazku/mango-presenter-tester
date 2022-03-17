@@ -8,12 +8,12 @@ use Nette\Security\IIdentity;
 use Nette\SmartObject;
 use Nextras\Application\UI\Helpers as NextrasSecuredHelpers;
 
-
 /**
  * Immutable object
  */
 class TestPresenterRequest
 {
+
 	use SmartObject;
 
 	/** @var string */
@@ -40,7 +40,7 @@ class TestPresenterRequest
 	/** @var bool */
 	private $ajax = false;
 
-	/** @var NULL|string */
+	/** @var string|NULL */
 	private $componentClass;
 
 	/** @var bool */
@@ -52,83 +52,71 @@ class TestPresenterRequest
 	/** @var Session */
 	private $session;
 
-
 	public function __construct(string $presenterName, Session $session)
 	{
 		if ($session instanceof \Webnazakazku\MangoTester\HttpMocks\Session) {
 			$session->setFakeId('mango.id');
 		}
+
 		$session->getSection(CsrfProtection::class)->token = 'mango.token';
 		$this->presenterName = $presenterName;
 		$this->session = $session;
 	}
-
 
 	public function getMethodName(): string
 	{
 		return $this->methodName;
 	}
 
-
 	public function getHeaders(): array
 	{
 		return $this->headers;
 	}
-
 
 	public function getPresenterName(): string
 	{
 		return $this->presenterName;
 	}
 
-
 	public function getParameters(): array
 	{
 		return $this->parameters + ['action' => 'default'];
 	}
-
 
 	public function getPost(): array
 	{
 		return $this->post;
 	}
 
-
 	public function getRawBody(): ?string
 	{
 		return $this->rawBody;
 	}
-
 
 	public function getFiles(): array
 	{
 		return $this->files;
 	}
 
-
 	public function isAjax(): bool
 	{
 		return $this->ajax;
 	}
-
 
 	public function getComponentClass(): ?string
 	{
 		return $this->componentClass;
 	}
 
-
 	public function shouldHaveIdentity(): bool
 	{
 		return $this->shouldHaveIdentity;
 	}
 
-
 	public function getIdentity(): ?IIdentity
 	{
 		return $this->identity;
 	}
-
 
 	/**
 	 * @param string $signal
@@ -136,7 +124,7 @@ class TestPresenterRequest
 	 * @param string|NULL $componentClass required for a secured signal
 	 * @return TestPresenterRequest
 	 */
-	public function withSignal(string $signal, array $componentParameters = [], string $componentClass = null): TestPresenterRequest
+	public function withSignal(string $signal, array $componentParameters = [], ?string $componentClass = null): TestPresenterRequest
 	{
 		assert(!isset($this->parameters['do']));
 		$request = clone $this;
@@ -150,7 +138,8 @@ class TestPresenterRequest
 				$this->session,
 				$componentClass,
 				'handle' . lcfirst(substr($signal, $lastDashPosition ? $lastDashPosition + 1 : 0)),
-				[$componentName, array_map(function ($param) {
+				[
+				$componentName, array_map(function ($param) {
 					return is_object($param) && method_exists($param, 'getId') ? $param->getId() : $param;
 				}, $componentParameters)]
 			);
@@ -160,8 +149,9 @@ class TestPresenterRequest
 		if ($componentName !== '') {
 			$newParameters = [];
 			foreach ($componentParameters as $key => $value) {
-				$newParameters["$componentName-$key"] = $value;
+				$newParameters[$componentName . '-' . $key] = $value;
 			}
+
 			$componentParameters = $newParameters;
 		}
 
@@ -169,7 +159,6 @@ class TestPresenterRequest
 
 		return $request;
 	}
-
 
 	public function withMethod(string $methodName): TestPresenterRequest
 	{
@@ -179,20 +168,19 @@ class TestPresenterRequest
 		return $request;
 	}
 
-
 	public function withForm(string $formName, array $post, array $files = [], bool $withProtection = true): TestPresenterRequest
 	{
-		$request = $this->withSignal("$formName-submit");
+		$request = $this->withSignal($formName . '-submit');
 		if ($withProtection) {
 			$token = 'abcdefghij' . base64_encode(sha1(('mango.token' ^ $this->session->getId()) . 'abcdefghij', true));
-			$post = $post + ['_token_' => $token];
+			$post += ['_token_' => $token];
 		}
+
 		$request->post = $post;
 		$request->files = $files;
 
 		return $request;
 	}
-
 
 	public function withRawBody(string $rawBody): TestPresenterRequest
 	{
@@ -202,7 +190,6 @@ class TestPresenterRequest
 		return $request;
 	}
 
-
 	public function withHeaders(array $headers): TestPresenterRequest
 	{
 		$request = clone $this;
@@ -210,7 +197,6 @@ class TestPresenterRequest
 
 		return $request;
 	}
-
 
 	public function withAjax(bool $enable = true): TestPresenterRequest
 	{
@@ -220,7 +206,6 @@ class TestPresenterRequest
 		return $request;
 	}
 
-
 	public function withParameters(array $parameters): TestPresenterRequest
 	{
 		$request = clone $this;
@@ -228,7 +213,6 @@ class TestPresenterRequest
 
 		return $request;
 	}
-
 
 	public function withPost(array $post): TestPresenterRequest
 	{
@@ -238,7 +222,6 @@ class TestPresenterRequest
 		return $request;
 	}
 
-
 	public function withFiles(array $files): TestPresenterRequest
 	{
 		$request = clone $this;
@@ -247,8 +230,7 @@ class TestPresenterRequest
 		return $request;
 	}
 
-
-	public function withIdentity(IIdentity $identity = null): TestPresenterRequest
+	public function withIdentity(?IIdentity $identity = null): TestPresenterRequest
 	{
 		$request = clone $this;
 		$request->shouldHaveIdentity = true;

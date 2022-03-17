@@ -7,11 +7,10 @@ use Nette\Application\UI;
 use Nette\StaticClass;
 use Tester\Assert;
 
-
 class PresenterAssert
 {
-	use StaticClass;
 
+	use StaticClass;
 
 	public static function assertRequestMatch(Request $expected, ?array $actual, bool $onlyIntersectedParameters = true): void
 	{
@@ -29,12 +28,15 @@ class PresenterAssert
 				if ($onlyIntersectedParameters) {
 					continue;
 				}
-				Assert::fail("Parameter $key not expected");
+
+				Assert::fail(sprintf('Parameter %s not expected', $key));
 			}
+
 			$expectedParameter = $expectedParameters[$key];
 			if (is_string($actualParameter) && !is_string($expectedParameter)) {
 				$expectedParameter = (string) $expectedParameter;
 			}
+
 			Assert::same($actualParameter, $expectedParameter, $key);
 		}
 	}

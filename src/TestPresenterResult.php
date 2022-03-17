@@ -18,9 +18,9 @@ use Nette\Http\Request as HttpRequest;
 use Nette\Http\UrlScript;
 use Tester\Assert;
 
-
 class TestPresenterResult
 {
+
 	/** @var IRouter */
 	private $router;
 
@@ -42,7 +42,6 @@ class TestPresenterResult
 	/** @var bool */
 	private $responseInspected = false;
 
-
 	public function __construct(IRouter $router, Request $request, IPresenter $presenter, ?IResponse $response, ?BadRequestException $badRequestException)
 	{
 		$this->presenter = $presenter;
@@ -52,18 +51,15 @@ class TestPresenterResult
 		$this->request = $request;
 	}
 
-
 	public function getRequest(): Request
 	{
 		return $this->request;
 	}
 
-
 	public function getPresenter(): IPresenter
 	{
 		return $this->presenter;
 	}
-
 
 	public function getUIPresenter(): Presenter
 	{
@@ -72,14 +68,12 @@ class TestPresenterResult
 		return $this->presenter;
 	}
 
-
 	public function getResponse(): IResponse
 	{
 		Assert::null($this->badRequestException);
 		assert($this->response !== null);
 		return $this->response;
 	}
-
 
 	public function getRedirectResponse(): RedirectResponse
 	{
@@ -89,7 +83,6 @@ class TestPresenterResult
 		return $response;
 	}
 
-
 	public function getTextResponse(): TextResponse
 	{
 		$response = $this->getResponse();
@@ -98,7 +91,6 @@ class TestPresenterResult
 		return $response;
 	}
 
-
 	public function getTextResponseSource(): string
 	{
 		if (!$this->textResponseSource) {
@@ -106,9 +98,9 @@ class TestPresenterResult
 			$this->textResponseSource = is_object($source) && method_exists($source, '__toString') ? $source->__toString(true) : (string) $source;
 			Assert::type('string', $this->textResponseSource);
 		}
+
 		return $this->textResponseSource;
 	}
-
 
 	public function getJsonResponse(): JsonResponse
 	{
@@ -118,7 +110,6 @@ class TestPresenterResult
 		return $response;
 	}
 
-
 	public function getBadRequestException(): BadRequestException
 	{
 		Assert::null($this->response);
@@ -126,15 +117,13 @@ class TestPresenterResult
 		return $this->badRequestException;
 	}
 
-
-	public function assertHasResponse(string $type = null): self
+	public function assertHasResponse(?string $type = null): self
 	{
 		$this->responseInspected = true;
 		Assert::type($type ?? IResponse::class, $this->response);
 
 		return $this;
 	}
-
 
 	/**
 	 * @param string|array|NULL $match
@@ -144,7 +133,7 @@ class TestPresenterResult
 		$this->responseInspected = true;
 		$source = $this->getTextResponseSource();
 
-		if (is_null($match)) {
+		if ($match === null) {
 			return $this;
 
 		} elseif (is_array($match)) {
@@ -155,7 +144,6 @@ class TestPresenterResult
 		return $this;
 	}
 
-
 	/**
 	 * @param string|array $matches
 	 */
@@ -164,20 +152,21 @@ class TestPresenterResult
 		if (is_string($matches)) {
 			$matches = [$matches];
 		}
+
 		assert(is_array($matches));
 		$this->responseInspected = true;
 		$source = $this->getTextResponseSource();
 		foreach ($matches as $match) {
 			assert(is_string($match));
-			$match = "%A%$match%A%";
+			$match = '%A%' . $match . '%A%';
 			if (Assert::isMatching($match, $source)) {
 				[$pattern, $actual] = Assert::expandMatchingPatterns($match, $source);
 				Assert::fail('%1 should NOT match %2', $actual, $pattern);
 			}
 		}
+
 		return $this;
 	}
-
 
 	/**
 	 * @param array|object|NULL $expected
@@ -189,9 +178,9 @@ class TestPresenterResult
 		if (func_num_args() !== 0) {
 			Assert::equal($expected, $response->getPayload());
 		}
+
 		return $this;
 	}
-
 
 	/**
 	 * @param array $parameters optional parameters, extra parameters in a redirect request are ignored
@@ -209,7 +198,6 @@ class TestPresenterResult
 		return $this;
 	}
 
-
 	public function assertRedirectsUrl(string $url): self
 	{
 		$this->responseInspected = true;
@@ -218,7 +206,6 @@ class TestPresenterResult
 
 		return $this;
 	}
-
 
 	public function assertFormValid(string $formName): self
 	{
@@ -233,21 +220,24 @@ class TestPresenterResult
 			foreach ($form->getOwnErrors() as $error) {
 				$errorsStr[] = "\town error: " . $error;
 			}
+
 			foreach ($controls as $control) {
 				assert($control instanceof Component && $control instanceof IControl);
 				$errors = $control->getErrors();
 				foreach ($errors as $error) {
-					$errorsStr[] = "\t" . $control->lookupPath(Form::class) . ": " . $error;
+					$errorsStr[] = "\t" . $control->lookupPath(Form::class) . ': ' . $error;
 				}
 			}
+
 			Assert::fail(
 				"Form has errors: \n" . implode("\n", $errorsStr) . "\n",
-				$form->getErrors(), []
+				$form->getErrors(),
+				[]
 			);
 		}
+
 		return $this;
 	}
-
 
 	public function assertFormHasErrors(string $formName, ?array $formErrors = null): self
 	{
@@ -265,8 +255,7 @@ class TestPresenterResult
 		return $this;
 	}
 
-
-	public function assertBadRequest(int $code = null, string $messagePattern = null): self
+	public function assertBadRequest(?int $code = null, ?string $messagePattern = null): self
 	{
 		$this->responseInspected = true;
 		Assert::type(BadRequestException::class, $this->badRequestException);
@@ -282,7 +271,6 @@ class TestPresenterResult
 
 		return $this;
 	}
-
 
 	/**
 	 * @internal
