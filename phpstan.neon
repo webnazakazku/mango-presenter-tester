@@ -10,7 +10,6 @@ parameters:
         - Nette\Http\SessionSection
 
     ignoreErrors:
-        #- '#Property Nette\\Http\\Request::\$(.*) is not writable.#'
         -
             message: """
                 #^Call to deprecated method validateConfig\\(\\) of class Nette\\\\DI\\\\CompilerExtension\\:
@@ -18,3 +17,7 @@ parameters:
             """
             count: 1
             path: src/Bridges/Infrastructure/PresenterTesterExtension.php
+        -
+            message: "#^Readonly property Nette\\\\Http\\\\Request\\:\\:\\$rawBodyCallback is assigned outside of its declaring class\\.$#"
+            count: 1
+            path: src/PresenterTester.php

@@ -30,7 +30,8 @@
 		"phpstan/phpstan-deprecation-rules": "^1.0",
 		"phpstan/phpstan-nette": "^1.0",
 		"webnazakazku/mango-tester-infrastructure": "^0.6",
-		"webnazakazku/mango-tester-http-mocks": "^0.4"
+		"webnazakazku/mango-tester-http-mocks": "^0.4",
+		"dg/bypass-finals": "^1.8"
 	},
 	"autoload": {
 		"classmap": [
