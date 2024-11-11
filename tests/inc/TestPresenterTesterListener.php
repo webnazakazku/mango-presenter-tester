@@ -9,11 +9,9 @@ use Webnazakazku\MangoTester\PresenterTester\TestPresenterResult;
 class TestPresenterTesterListener implements IPresenterTesterListener
 {
 
-	/** @var bool */
-	public $enabled = false;
+	public bool $enabled = false;
 
-	/** @var TestPresenterResult|null */
-	public $passedResult;
+	public ?TestPresenterResult $passedResult = null;
 
 	public function onRequest(TestPresenterRequest $request): TestPresenterRequest
 	{

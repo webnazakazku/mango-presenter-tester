@@ -11,7 +11,7 @@ class PresenterTesterTestCaseListener implements ITestCaseListener
 {
 
 	/** @var PresenterTester|NULL */
-	public $presenterTester;
+	public ?PresenterTester $presenterTester = null;
 
 	public function setUp(TestCase $testCase): void
 	{

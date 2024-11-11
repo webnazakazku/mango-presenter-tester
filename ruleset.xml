@@ -1,18 +1,23 @@
 <?xml version="1.0"?>
 <ruleset>
     <!-- Contributte Coding Standard -->
-    <rule ref="./vendor/ninjify/coding-standard/contributte.xml"/>
+    <rule ref="./vendor/contributte/qa/ruleset.xml"/>
 
     <!-- Specific rules -->
     <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
         <properties>
             <property name="rootNamespaces" type="array" value="
                 src=>Webnazakazku\MangoTester\PresenterTester,
-				tests/cases=>AppTests\Tester\PresenterTester,
+                tests/cases=>AppTests\Tester\PresenterTester,
 				tests/inc=>Tests\Tester\PresenterTester,
 			"/>
             <property name="extensions" type="array" value="php,phpt"/>
         </properties>
+        <!--<exclude name="SlevomatCodingStandard.Functions.DisallowEmptyFunction.EmptyFunction" />
+        <exclude name="SlevomatCodingStandard.PHP.DisallowReference.DisallowedReturningReference" />
+        <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint" />
+        <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint" />-->
+        <exclude name="SlevomatCodingStandard.Functions.DisallowEmptyFunction.EmptyFunction" />
         <exclude name="Generic.NamingConventions.CamelCapsFunctionName.ScopeNotCamelCaps" />
     </rule>
 

@@ -4,12 +4,12 @@ namespace Webnazakazku\MangoTester\PresenterTester\Bridges\Infrastructure;
 
 use Nette\Application\Application;
 use Nette\Application\IPresenterFactory;
-use Nette\Application\IRouter;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Definitions\Statement;
 use Nette\Http\IRequest;
 use Nette\Http\Session;
+use Nette\Routing\Router;
 use Nette\Security\User;
 use Webnazakazku\MangoTester\Infrastructure\MangoTesterExtension;
 use Webnazakazku\MangoTester\PresenterTester\IPresenterTesterListener;
@@ -18,8 +18,8 @@ use Webnazakazku\MangoTester\PresenterTester\PresenterTester;
 class PresenterTesterExtension extends CompilerExtension
 {
 
-	/** @var array */
-	public $defaults = [
+	/** @var array<mixed> */
+	public array $defaults = [
 		'baseUrl' => 'https://test.dev',
 		'identityFactory' => null,
 	];
@@ -43,7 +43,7 @@ class PresenterTesterExtension extends CompilerExtension
 			->setType(PresenterTesterTestCaseListener::class);
 		$this->requireService(IPresenterFactory::class);
 		$this->requireService(User::class);
-		$this->requireService(IRouter::class);
+		$this->requireService(Router::class);
 		$this->requireService(IRequest::class);
 		$this->requireService(Session::class);
 		$this->requireService(Application::class);

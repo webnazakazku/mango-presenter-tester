@@ -4,45 +4,39 @@ namespace Webnazakazku\MangoTester\PresenterTester;
 
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenter;
-use Nette\Application\IResponse;
-use Nette\Application\IRouter;
 use Nette\Application\Request;
+use Nette\Application\Response;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\Responses\RedirectResponse;
 use Nette\Application\Responses\TextResponse;
 use Nette\Application\UI\Presenter;
 use Nette\ComponentModel\Component;
+use Nette\Forms\Control;
 use Nette\Forms\Form;
 use Nette\Forms\IControl;
 use Nette\Http\Request as HttpRequest;
 use Nette\Http\UrlScript;
+use Nette\Routing\Router;
 use Tester\Assert;
 
 class TestPresenterResult
 {
 
-	/** @var IRouter */
-	private $router;
+	private Router $router;
 
-	/** @var IPresenter */
-	private $presenter;
+	private IPresenter $presenter;
 
-	/** @var Request */
-	private $request;
+	private Request $request;
 
-	/** @var IResponse|NULL */
-	private $response;
+	private ?Response $response = null;
 
-	/** @var string|NULL */
-	private $textResponseSource;
+	private ?string $textResponseSource = null;
 
-	/** @var BadRequestException|NULL */
-	private $badRequestException;
+	private ?BadRequestException $badRequestException = null;
 
-	/** @var bool */
-	private $responseInspected = false;
+	private bool $responseInspected = false;
 
-	public function __construct(IRouter $router, Request $request, IPresenter $presenter, ?IResponse $response, ?BadRequestException $badRequestException)
+	public function __construct(Router $router, Request $request, IPresenter $presenter, ?Response $response, ?BadRequestException $badRequestException)
 	{
 		$this->presenter = $presenter;
 		$this->response = $response;
@@ -65,13 +59,15 @@ class TestPresenterResult
 	{
 		Assert::type(Presenter::class, $this->presenter);
 		assert($this->presenter instanceof Presenter);
+
 		return $this->presenter;
 	}
 
-	public function getResponse(): IResponse
+	public function getResponse(): Response
 	{
 		Assert::null($this->badRequestException);
 		assert($this->response !== null);
+
 		return $this->response;
 	}
 
@@ -80,6 +76,7 @@ class TestPresenterResult
 		$response = $this->getResponse();
 		Assert::type(RedirectResponse::class, $response);
 		assert($response instanceof RedirectResponse);
+
 		return $response;
 	}
 
@@ -88,6 +85,7 @@ class TestPresenterResult
 		$response = $this->getResponse();
 		Assert::type(TextResponse::class, $response);
 		assert($response instanceof TextResponse);
+
 		return $response;
 	}
 
@@ -107,6 +105,7 @@ class TestPresenterResult
 		$response = $this->getResponse();
 		Assert::type(JsonResponse::class, $response);
 		assert($response instanceof JsonResponse);
+
 		return $response;
 	}
 
@@ -114,40 +113,41 @@ class TestPresenterResult
 	{
 		Assert::null($this->response);
 		assert($this->badRequestException !== null);
+
 		return $this->badRequestException;
 	}
 
 	public function assertHasResponse(?string $type = null): self
 	{
 		$this->responseInspected = true;
-		Assert::type($type ?? IResponse::class, $this->response);
+		Assert::type($type ?? Response::class, $this->response);
 
 		return $this;
 	}
 
 	/**
-	 * @param string|array|NULL $match
+	 * @param string|array<mixed>|NULL $match
 	 */
-	public function assertRenders($match = null): self
+	public function assertRenders(string|array|null $match = null): self
 	{
 		$this->responseInspected = true;
 		$source = $this->getTextResponseSource();
 
 		if ($match === null) {
 			return $this;
-
 		} elseif (is_array($match)) {
 			$match = '%A?%' . implode('%A?%', $match) . '%A?%';
 		}
 
 		Assert::match($match, $source);
+
 		return $this;
 	}
 
 	/**
-	 * @param string|array $matches
+	 * @param string|array<mixed> $matches
 	 */
-	public function assertNotRenders($matches): self
+	public function assertNotRenders(string|array $matches): self
 	{
 		if (is_string($matches)) {
 			$matches = [$matches];
@@ -169,9 +169,9 @@ class TestPresenterResult
 	}
 
 	/**
-	 * @param array|object|NULL $expected
+	 * @param array<mixed>|object|NULL $expected
 	 */
-	public function assertJson($expected = null): self
+	public function assertJson(array|object|null $expected = null): self
 	{
 		$this->responseInspected = true;
 		$response = $this->getJsonResponse();
@@ -183,7 +183,7 @@ class TestPresenterResult
 	}
 
 	/**
-	 * @param array $parameters optional parameters, extra parameters in a redirect request are ignored
+	 * @param array<mixed> $parameters optional parameters, extra parameters in a redirect request are ignored
 	 */
 	public function assertRedirects(string $presenterName, array $parameters = []): self
 	{
@@ -215,7 +215,7 @@ class TestPresenterResult
 		Assert::type(Form::class, $form);
 		assert($form instanceof Form);
 		if ($form->hasErrors()) {
-			$controls = $form->getComponents(true, IControl::class);
+			$controls = $form->getComponents(true, Control::class);
 			$errorsStr = [];
 			foreach ($form->getOwnErrors() as $error) {
 				$errorsStr[] = "\town error: " . $error;
@@ -239,6 +239,9 @@ class TestPresenterResult
 		return $this;
 	}
 
+	/**
+	 * @param array<mixed>|null $formErrors
+	 */
 	public function assertFormHasErrors(string $formName, ?array $formErrors = null): self
 	{
 		$this->responseInspected = true;

@@ -7,45 +7,39 @@ use LogicException;
 use Nette\Application\BadRequestException;
 use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
-use Nette\Application\IRouter;
 use Nette\Application\Request as AppRequest;
 use Nette\Application\UI\Presenter;
 use Nette\Http\IRequest;
 use Nette\Http\Request;
 use Nette\Http\Session;
 use Nette\Http\UrlScript;
+use Nette\Routing\Router;
 use Nette\Security\User;
 use Tester\Assert;
 
 class PresenterTester
 {
 
-	/** @var Session */
-	private $session;
+	private Session $session;
 
-	/** @var IPresenterFactory */
-	private $presenterFactory;
+	private IPresenterFactory $presenterFactory;
 
-	/** @var IRouter */
-	private $router;
+	private Router $router;
 
-	/** @var Request */
-	private $httpRequest;
+	private Request $httpRequest;
 
-	/** @var string */
-	private $baseUrl;
+	private string $baseUrl;
 
-	/** @var User */
-	private $user;
+	private User $user;
 
 	/** @var IPresenterTesterListener[] */
-	private $listeners;
+	private array $listeners;
 
 	/** @var callable|NULL */
 	private $identityFactory;
 
 	/** @var TestPresenterResult[] */
-	private $results = [];
+	private array $results = [];
 
 	/**
 	 * @param IPresenterTesterListener[] $listeners
@@ -54,7 +48,7 @@ class PresenterTester
 		string $baseUrl,
 		Session $session,
 		IPresenterFactory $presenterFactory,
-		IRouter $router,
+		Router $router,
 		IRequest $httpRequest,
 		User $user,
 		array $listeners = [],
@@ -93,13 +87,13 @@ class PresenterTester
 			$response = null;
 		}
 
-		if ($applicationRequest->getParameter(Presenter::SIGNAL_KEY) && method_exists($presenter, 'isSignalProcessed')) {
+		if ($applicationRequest->getParameter(Presenter::SignalKey) && method_exists($presenter, 'isSignalProcessed')) {
 			if (!$presenter->isSignalProcessed()) {
 				if ($badRequestException) {
 					$cause = 'BadRequestException with code ' . $badRequestException->getCode() . ' and message "' . $badRequestException->getMessage() . '"';
 				} else {
 					assert($response !== null);
-					$cause = get_class($response);
+					$cause = $response::class;
 				}
 
 				Assert::fail('Signal has not been processed at all, received ' . $cause);
@@ -176,7 +170,7 @@ class PresenterTester
 
 		$url = new UrlScript((string) $this->router->constructUrl($appRequest->toArray(), $refUrl), '/');
 
-		Closure::bind(function () use ($request, $url) {
+		Closure::bind(function () use ($request, $url): void {
 			/** @var Request $this */
 			$this->headers = $request->getHeaders() + $this->headers;
 			if ($request->isAjax()) {
@@ -190,13 +184,13 @@ class PresenterTester
 			$this->method = ($request->getPost() || $request->getRawBody()) ? 'POST' : 'GET';
 			$rawBodyCallback = [$request, 'getRawBody'];
 			$this->rawBodyCallback = \Closure::fromCallable($rawBodyCallback);
-		}, $this->httpRequest, Request::class)->__invoke();
+		}, $this->httpRequest, Request::class)();
 	}
 
 	protected function setupUIPresenter(Presenter $presenter): void
 	{
 		$presenter->autoCanonicalize = false;
-		$presenter->invalidLinkMode = Presenter::INVALID_LINK_EXCEPTION;
+		$presenter->invalidLinkMode = Presenter::InvalidLinkException;
 	}
 
 }

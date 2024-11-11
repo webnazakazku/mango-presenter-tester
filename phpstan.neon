@@ -6,13 +6,11 @@ includes:
 parameters:
     level: 8
 
-    checkMissingIterableValueType: false
-
     universalObjectCratesClasses:
         - Nette\Http\SessionSection
 
     ignoreErrors:
-        - '#Property Nette\\Http\\Request::\$(.*) is not writable.#'
+        #- '#Property Nette\\Http\\Request::\$(.*) is not writable.#'
         -
             message: """
                 #^Call to deprecated method validateConfig\\(\\) of class Nette\\\\DI\\\\CompilerExtension\\:

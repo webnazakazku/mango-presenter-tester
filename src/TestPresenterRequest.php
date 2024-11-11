@@ -16,41 +16,36 @@ class TestPresenterRequest
 
 	use SmartObject;
 
-	/** @var string */
-	private $methodName = 'GET';
+	private string $methodName = 'GET';
 
-	/** @var array */
-	private $headers = [];
+	/** @var array<mixed> */
+	private array $headers = [];
 
-	/** @var string */
-	private $presenterName;
+	private string $presenterName;
 
-	/** @var array */
-	private $parameters = [];
+	/** @var array<mixed> */
+	private array $parameters = [];
 
-	/** @var array */
-	private $post = [];
+	/** @var array<mixed> */
+	private array $post = [];
 
 	/** @var string|NULL */
-	private $rawBody;
+	private ?string $rawBody = null;
 
-	/** @var array */
-	private $files = [];
+	/** @var array<mixed> */
+	private array $files = [];
 
-	/** @var bool */
-	private $ajax = false;
+	private bool $ajax = false;
 
 	/** @var string|NULL */
-	private $componentClass;
+	private ?string $componentClass = null;
 
-	/** @var bool */
-	private $shouldHaveIdentity = false;
+	private bool $shouldHaveIdentity = false;
 
 	/** @var IIdentity|NULL */
-	private $identity;
+	private ?IIdentity $identity = null;
 
-	/** @var Session */
-	private $session;
+	private Session $session;
 
 	public function __construct(string $presenterName, Session $session)
 	{
@@ -68,6 +63,9 @@ class TestPresenterRequest
 		return $this->methodName;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getHeaders(): array
 	{
 		return $this->headers;
@@ -78,11 +76,17 @@ class TestPresenterRequest
 		return $this->presenterName;
 	}
 
+	/**
+	 * @return mixed[]|string[]
+	 */
 	public function getParameters(): array
 	{
 		return $this->parameters + ['action' => 'default'];
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getPost(): array
 	{
 		return $this->post;
@@ -93,6 +97,9 @@ class TestPresenterRequest
 		return $this->rawBody;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getFiles(): array
 	{
 		return $this->files;
@@ -119,10 +126,8 @@ class TestPresenterRequest
 	}
 
 	/**
-	 * @param string $signal
-	 * @param array $componentParameters
+	 * @param array<mixed> $componentParameters
 	 * @param string|NULL $componentClass required for a secured signal
-	 * @return TestPresenterRequest
 	 */
 	public function withSignal(string $signal, array $componentParameters = [], ?string $componentClass = null): TestPresenterRequest
 	{
@@ -139,9 +144,7 @@ class TestPresenterRequest
 				$componentClass,
 				'handle' . lcfirst(substr($signal, $lastDashPosition ? $lastDashPosition + 1 : 0)),
 				[
-				$componentName, array_map(function ($param) {
-					return is_object($param) && method_exists($param, 'getId') ? $param->getId() : $param;
-				}, $componentParameters)]
+					$componentName, array_map(fn ($param) => is_object($param) && method_exists($param, 'getId') ? $param->getId() : $param, $componentParameters)]
 			);
 			$componentParameters['_sec'] = $csrfToken;
 		}
@@ -168,6 +171,10 @@ class TestPresenterRequest
 		return $request;
 	}
 
+	/**
+	 * @param array<mixed> $post
+	 * @param array<mixed> $files
+	 */
 	public function withForm(string $formName, array $post, array $files = [], bool $withProtection = true): TestPresenterRequest
 	{
 		$request = $this->withSignal($formName . '-submit');
@@ -190,6 +197,9 @@ class TestPresenterRequest
 		return $request;
 	}
 
+	/**
+	 * @param array<mixed> $headers
+	 */
 	public function withHeaders(array $headers): TestPresenterRequest
 	{
 		$request = clone $this;
@@ -206,6 +216,9 @@ class TestPresenterRequest
 		return $request;
 	}
 
+	/**
+	 * @param array<mixed> $parameters
+	 */
 	public function withParameters(array $parameters): TestPresenterRequest
 	{
 		$request = clone $this;
@@ -214,6 +227,9 @@ class TestPresenterRequest
 		return $request;
 	}
 
+	/**
+	 * @param array<mixed> $post
+	 */
 	public function withPost(array $post): TestPresenterRequest
 	{
 		$request = clone $this;
@@ -222,6 +238,9 @@ class TestPresenterRequest
 		return $request;
 	}
 
+	/**
+	 * @param array<mixed> $files
+	 */
 	public function withFiles(array $files): TestPresenterRequest
 	{
 		$request = clone $this;

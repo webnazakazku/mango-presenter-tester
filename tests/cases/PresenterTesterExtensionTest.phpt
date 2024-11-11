@@ -18,11 +18,9 @@ assert($appConfigurator instanceof InfrastructureConfigurator);
 class PresenterTesterExtensionTest extends TestCase
 {
 
-	/** @var PresenterTester */
-	private $presenterTester;
+	private PresenterTester $presenterTester;
 
-	/** @var TestPresenterTesterListener */
-	private $listener;
+	private TestPresenterTesterListener $listener;
 
 	public function __construct(PresenterTester $presenterTester, TestPresenterTesterListener $listener)
 	{
@@ -30,7 +28,7 @@ class PresenterTesterExtensionTest extends TestCase
 		$this->listener = $listener;
 	}
 
-	public function testExtension()
+	public function testExtension(): void
 	{
 		$rpBaseUrl = new ReflectionProperty(PresenterTester::class, 'baseUrl');
 		$rpBaseUrl->setAccessible(true);

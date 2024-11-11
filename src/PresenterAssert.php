@@ -3,23 +3,28 @@
 namespace Webnazakazku\MangoTester\PresenterTester;
 
 use Nette\Application\Request;
-use Nette\Application\UI;
+use Nette\Application\UI\Presenter;
 use Nette\StaticClass;
 use Tester\Assert;
+use Tester\AssertException;
 
 class PresenterAssert
 {
 
 	use StaticClass;
 
+	/**
+	 * @param array<mixed>|null $actual
+	 * @throws AssertException
+	 */
 	public static function assertRequestMatch(Request $expected, ?array $actual, bool $onlyIntersectedParameters = true): void
 	{
 		Assert::notSame(null, $actual);
 		assert($actual !== null);
 
-		$presenter = $actual[UI\Presenter::PRESENTER_KEY] ?? null;
+		$presenter = $actual[Presenter::PresenterKey] ?? null;
 		Assert::same($expected->getPresenterName(), $presenter);
-		unset($actual[UI\Presenter::PRESENTER_KEY]);
+		unset($actual[Presenter::PresenterKey]);
 
 		$expectedParameters = $expected->getParameters();
 
