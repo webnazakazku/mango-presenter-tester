@@ -1,6 +1,7 @@
 {
 	"name": "webnazakazku/mango-presenter-tester",
 	"type": "library",
+	"description": "",
 	"license": "MIT",
 	"repositories": [
 		{
