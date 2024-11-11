@@ -188,7 +188,8 @@ class PresenterTester
 			$this->post = $request->getPost();
 			$this->url = $url;
 			$this->method = ($request->getPost() || $request->getRawBody()) ? 'POST' : 'GET';
-			$this->rawBodyCallback = [$request, 'getRawBody'];
+			$rawBodyCallback = [$request, 'getRawBody'];
+			$this->rawBodyCallback = \Closure::fromCallable($rawBodyCallback);
 		}, $this->httpRequest, Request::class)->__invoke();
 	}
 
