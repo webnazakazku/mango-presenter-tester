@@ -23,7 +23,7 @@
 	},
 	"require-dev": {
 		"latte/latte": "^3.0",
-		"nette/bootstrap": "~3.3.0",
+		"nette/bootstrap": "^3.2",
 		"nextras/secured-links": "@dev",
 		"contributte/qa": "^0.4",
 		"phpstan/phpstan": "^2.0",
