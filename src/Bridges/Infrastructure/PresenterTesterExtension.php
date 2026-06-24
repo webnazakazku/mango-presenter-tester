@@ -62,6 +62,9 @@ class PresenterTesterExtension extends CompilerExtension
 		]);
 	}
 
+	/**
+	 * @param class-string $class
+	 */
 	private function requireService(string $class): void
 	{
 		$builder = $this->getContainerBuilder();

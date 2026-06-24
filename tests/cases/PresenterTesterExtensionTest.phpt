@@ -31,11 +31,9 @@ class PresenterTesterExtensionTest extends TestCase
 	public function testExtension(): void
 	{
 		$rpBaseUrl = new ReflectionProperty(PresenterTester::class, 'baseUrl');
-		$rpBaseUrl->setAccessible(true);
 		Assert::same('http://mango.dev', $rpBaseUrl->getValue($this->presenterTester));
 
 		$rpListeners = new ReflectionProperty(PresenterTester::class, 'listeners');
-		$rpListeners->setAccessible(true);
 		Assert::same([$this->listener], array_values($rpListeners->getValue($this->presenterTester)));
 	}
 

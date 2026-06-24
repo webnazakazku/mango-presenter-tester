@@ -182,8 +182,9 @@ class PresenterTester
 			$this->post = $request->getPost();
 			$this->url = $url;
 			$this->method = ($request->getPost() || $request->getRawBody()) ? 'POST' : 'GET';
-			$rawBodyCallback = [$request, 'getRawBody'];
-			$this->rawBodyCallback = \Closure::fromCallable($rawBodyCallback);
+
+			// OPRAVA: Obalení do Closure zaručující návratový typ string
+			$this->rawBodyCallback = fn (): string => (string) $request->getRawBody();
 		}, $this->httpRequest, Request::class)();
 	}
 
