@@ -23,7 +23,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ "8.1", "8.2", "8.3", "8.4", "8.5" ]
+        php-version: [ "8.2", "8.3", "8.4", "8.5" ]
         operating-system: [ "ubuntu-latest" ]
       fail-fast: false
 
@@ -143,11 +143,11 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ "8.1", "8.2", "8.3", "8.4", "8.5" ]
+        php-version: [ "8.2", "8.3", "8.4", "8.5" ]
         operating-system: [ "ubuntu-latest" ]
         composer-args: [ "" ]
         include:
-          - php-version: "8.1"
+          - php-version: "8.2"
             operating-system: "ubuntu-latest"
             composer-args: "--prefer-lowest"
       fail-fast: false
