@@ -6,13 +6,17 @@
     <!-- Specific rules -->
     <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
         <properties>
-            <property name="rootNamespaces" type="array" value="
-                src=>Webnazakazku\MangoTester\PresenterTester,
-                tests/cases=>AppTests\Tester\PresenterTester,
-				tests/inc=>Tests\Tester\PresenterTester,
-			"/>
-            <property name="extensions" type="array" value="php,phpt"/>
+            <property name="rootNamespaces" type="array">
+                <element key="src" value="Webnazakazku\MangoTester\PresenterTester"/>
+                <element key="tests/cases" value="AppTests\Tester\PresenterTester"/>
+                <element key="tests/inc" value="Tests\Tester\PresenterTester"/>
+            </property>
+            <property name="extensions" type="array">
+                <element value="php"/>
+                <element value="phpt"/>
+            </property>
         </properties>
+
         <exclude name="SlevomatCodingStandard.Functions.DisallowEmptyFunction.EmptyFunction" />
         <exclude name="Generic.NamingConventions.CamelCapsFunctionName.ScopeNotCamelCaps" />
     </rule>
