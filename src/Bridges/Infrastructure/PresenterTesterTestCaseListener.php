@@ -19,7 +19,7 @@ class PresenterTesterTestCaseListener implements ITestCaseListener
 
 	public function tearDown(TestCase $testCase): void
 	{
-		if (!$this->presenterTester) {
+		if ($this->presenterTester === null) {
 			return;
 		}
 

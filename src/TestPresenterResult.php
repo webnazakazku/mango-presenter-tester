@@ -91,7 +91,7 @@ class TestPresenterResult
 
 	public function getTextResponseSource(): string
 	{
-		if (!$this->textResponseSource) {
+		if ($this->textResponseSource === null) {
 			$source = $this->getTextResponse()->getSource();
 			$this->textResponseSource = is_object($source) && method_exists($source, '__toString') ? $source->__toString(true) : (string) $source;
 			Assert::type('string', $this->textResponseSource);
@@ -153,7 +153,6 @@ class TestPresenterResult
 			$matches = [$matches];
 		}
 
-		assert(is_array($matches));
 		$this->responseInspected = true;
 		$source = $this->getTextResponseSource();
 		foreach ($matches as $match) {

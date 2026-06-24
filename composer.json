@@ -29,6 +29,7 @@
 		"phpstan/phpstan": "^1.0",
 		"phpstan/phpstan-deprecation-rules": "^1.0",
 		"phpstan/phpstan-nette": "^1.0",
+		"phpstan/phpstan-strict-rules": "^1.0",
 		"webnazakazku/mango-tester-infrastructure": "^0.7",
 		"webnazakazku/mango-tester-http-mocks": "^0.5",
 		"dg/bypass-finals": "^1.8"

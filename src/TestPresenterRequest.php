@@ -138,11 +138,11 @@ class TestPresenterRequest
 		$lastDashPosition = strrpos($signal, '-');
 		$componentName = $lastDashPosition !== false ? substr($signal, 0, $lastDashPosition) : '';
 
-		if ($componentClass && class_exists(NextrasSecuredHelpers::class)) {
+		if ($componentClass !== null && class_exists(NextrasSecuredHelpers::class)) {
 			$csrfToken = NextrasSecuredHelpers::getCsrfToken(
 				$this->session,
 				$componentClass,
-				'handle' . lcfirst(substr($signal, $lastDashPosition ? $lastDashPosition + 1 : 0)),
+				'handle' . lcfirst(substr($signal, $lastDashPosition !== false ? $lastDashPosition + 1 : 0)),
 				[
 					$componentName, array_map(fn ($param) => is_object($param) && method_exists($param, 'getId') ? $param->getId() : $param, $componentParameters)]
 			);

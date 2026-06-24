@@ -87,9 +87,9 @@ class PresenterTester
 			$response = null;
 		}
 
-		if ($applicationRequest->getParameter(Presenter::SignalKey) && method_exists($presenter, 'isSignalProcessed')) {
+		if ($applicationRequest->getParameter(Presenter::SignalKey) !== null && method_exists($presenter, 'isSignalProcessed')) {
 			if (!$presenter->isSignalProcessed()) {
-				if ($badRequestException) {
+				if ($badRequestException instanceof BadRequestException) {
 					$cause = 'BadRequestException with code ' . $badRequestException->getCode() . ' and message "' . $badRequestException->getMessage() . '"';
 				} else {
 					assert($response !== null);
@@ -139,7 +139,7 @@ class PresenterTester
 	{
 		return new AppRequest(
 			$testRequest->getPresenterName(),
-			$testRequest->getPost() ? 'POST' : $testRequest->getMethodName(),
+			$testRequest->getPost() !== [] ? 'POST' : $testRequest->getMethodName(),
 			$testRequest->getParameters(),
 			$testRequest->getPost(),
 			$testRequest->getFiles()
@@ -150,8 +150,8 @@ class PresenterTester
 	{
 		$this->user->logout(true);
 		$identity = $request->getIdentity();
-		if (!$identity && $request->shouldHaveIdentity()) {
-			if (!$this->identityFactory) {
+		if ($identity === null && $request->shouldHaveIdentity()) {
+			if ($this->identityFactory === null) {
 				throw new LogicException('identityFactory is not set');
 			}
 
@@ -181,7 +181,7 @@ class PresenterTester
 
 			$this->post = $request->getPost();
 			$this->url = $url;
-			$this->method = ($request->getPost() || $request->getRawBody()) ? 'POST' : 'GET';
+			$this->method = ($request->getPost() !== [] || $request->getRawBody() !== null) ? 'POST' : 'GET';
 
 			// OPRAVA: Obalení do Closure zaručující návratový typ string
 			$this->rawBodyCallback = fn (): string => (string) $request->getRawBody();
