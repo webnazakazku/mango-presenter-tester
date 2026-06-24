@@ -14,14 +14,6 @@ parameters:
 
     ignoreErrors:
         -
-            message: """
-                #^Call to deprecated method validateConfig\\(\\) of class Nette\\\\DI\\\\CompilerExtension\\:
-                use getConfigSchema\\(\\)$#
-            """
-            count: 1
-            path: src/Bridges/Infrastructure/PresenterTesterExtension.php
-
-        -
             message: '#^Property Nette\\Http\\Request\:\:\$(.*) is not writable\.$#'
             path: src/PresenterTester.php
 

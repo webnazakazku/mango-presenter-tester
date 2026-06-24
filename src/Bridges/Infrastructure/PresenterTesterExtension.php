@@ -10,19 +10,27 @@ use Nette\DI\Definitions\Statement;
 use Nette\Http\IRequest;
 use Nette\Http\Session;
 use Nette\Routing\Router;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use Nette\Security\User;
 use Webnazakazku\MangoTester\Infrastructure\MangoTesterExtension;
 use Webnazakazku\MangoTester\PresenterTester\IPresenterTesterListener;
 use Webnazakazku\MangoTester\PresenterTester\PresenterTester;
 
+/**
+ * @property-read \stdClass $config
+ */
 class PresenterTesterExtension extends CompilerExtension
 {
 
-	/** @var array<mixed> */
-	public array $defaults = [
-		'baseUrl' => 'https://test.dev',
-		'identityFactory' => null,
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'baseUrl' => Expect::string()
+				->default('https://test.dev'),
+			'identityFactory' => Expect::string(),
+		]);
+	}
 
 	public function loadConfiguration(): void
 	{
@@ -51,13 +59,13 @@ class PresenterTesterExtension extends CompilerExtension
 
 	public function beforeCompile(): void
 	{
-		$config = $this->validateConfig($this->defaults);
+		$config = $this->config;
 		$builder = $this->getContainerBuilder();
 		$definition = $builder->getDefinition($this->prefix('presenterTester'));
 		assert($definition instanceof ServiceDefinition);
 		$definition->setArguments([
-			'baseUrl' => $config['baseUrl'],
-			'identityFactory' => $config['identityFactory'],
+			'baseUrl' => $config->baseUrl,
+			'identityFactory' => $config->identityFactory,
 			'listeners' => $builder->findByType(IPresenterTesterListener::class),
 		]);
 	}
