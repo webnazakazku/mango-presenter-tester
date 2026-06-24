@@ -20,7 +20,11 @@ parameters:
             """
             count: 1
             path: src/Bridges/Infrastructure/PresenterTesterExtension.php
+
         -
-            message: "#^Readonly property Nette\\\\Http\\\\Request\\:\\:\\$rawBodyCallback is assigned outside of its declaring class\\.$#"
-            count: 1
+            message: '#^Property Nette\\Http\\Request\:\:\$(.*) is not writable\.$#'
+            path: src/PresenterTester.php
+
+        -
+            message: "#^Readonly property Nette\\\\Http\\\\Request\\:\\:\\$(.*) is assigned outside of its declaring class\\.$#"
             path: src/PresenterTester.php

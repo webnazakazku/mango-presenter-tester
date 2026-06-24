@@ -97,7 +97,7 @@ class TestPresenterResult
 			Assert::type('string', $this->textResponseSource);
 		}
 
-		return $this->textResponseSource;
+		return (string) $this->textResponseSource;
 	}
 
 	public function getJsonResponse(): JsonResponse
